@@ -1,0 +1,44 @@
+[
+    {
+      "id": 1,
+      "title": "A Game of Thrones",
+      "author": "George R. R. Martin",
+      "isCheckedOut": true,
+      "rating": 5
+    },
+    {
+     "id": 2,
+     "title": "A Clash of Kings",
+     "author": "George R. R. Martin",
+     "isCheckedOut": false,
+     "rating": 5
+    },
+    {
+      "id": 3,
+      "title": "A Storm of Swords",
+      "author": "George R. R. Martin",
+      "isCheckedOut": true,
+      "rating": 5
+     },
+     {
+      "id": 4,
+      "title": "A Feast for Crows",
+      "author": "George R. R. Martin",
+      "isCheckedOut": true,
+      "rating": 5
+     },
+     {
+      "id": 5,
+      "title": "A Dance with Dragons",
+      "author": "George R. R. Martin",
+      "isCheckedOut": true,
+      "rating": 5
+     },
+    {
+     "id": 6,
+     "title": "Harry Potter and the Prisoner of Azkaban",
+     "author": "J. K. Rowling",
+     "isCheckedOut": false,
+     "rating": 5
+    }
+  ]
