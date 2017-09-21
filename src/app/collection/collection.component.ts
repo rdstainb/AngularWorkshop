@@ -4,6 +4,7 @@ import { MdSnackBar, MdDialog } from "@angular/material";
 import { DataService } from "../services/data.service"
 import { BookDetailComponent } from "../book-detail/book-detail.component";
 import { Router } from "@angular/router";
+import { NewBookComponent } from "../new-book/new-book.component";
 
 @Component({
   templateUrl: './collection.component.html',
@@ -22,40 +23,70 @@ export class CollectionComponent implements OnInit {
     this.getBooks();
   }
 
-  pageTitle:string = 'Books';
+  pageTitle: string = 'Books';
 
-  public books:Array<IBook>;
-  
-  startTime:Date;
+  public books: Array<IBook>;
 
-  endTime:Date;
+  startTime: Date;
 
-  showOperatingHours:boolean = false;
+  endTime: Date;
+
+  showOperatingHours: boolean = false;
+
+
+  updateMessage(message: string, type: string): void {
+    if (message) {
+      this._snackBar.open(`${type}: ${message}`, 'DISMISS', {
+        duration: 3000
+      });
+    }
+  }
+
+  onRatingUpdate(book: IBook): void {
+    this.updateBook(book);
+    // this.updateMessage(book.title, "Rating has been updated");
+  }
+
+  openDialog(bookId: number): void {
+    let config = { width: '650px', height: '400px', position: { top: '50px' } };
+    let dialogRef = this._dialog.open(BookDetailComponent, config);
+    dialogRef.componentInstance.bookId = bookId;
+    dialogRef.afterClosed().subscribe(res => {
+      this.getBooks();
+    });
+  }
+
+  openRoute(bookId: number): void {
+    this._router.navigate(['/collection', bookId]);
+  }
 
   getBooks(): void {
     this._dataService.getBooks()
-    .subscribe(
+      .subscribe(
       books => this.books = books,
       error => this.updateMessage(<any>error, 'ERROR'));
   }
 
-updateMessage(message: string, type: string): void {
-  if (message) {
-    this._snackBar.open(`${type}: ${message}`, 'DISMISS', {
-      duration: 3000
+  addBook(): void {
+    let config = {
+      width: '650px', height: '650x', position: { top: '50px' },
+      disableClose: true
+    };
+    let dialogRef = this._dialog.open(NewBookComponent, config);
+    dialogRef.afterClosed().subscribe(newBook => {
+      if (newBook) {
+        newBook.id = this.books.length + 1;
+        this._dataService.addBook(newBook)
+          .subscribe(
+          books => this.books = books,
+          error => this.updateMessage(<any>error, 'ERROR'));
+      }
     });
-
-  }
-}
-
-onRatingUpdate(book: IBook): void {
-    this.updateBook(book);
-    this.updateMessage(book.title, "Rating has been updated");
   }
 
   updateBook(book: IBook): void {
     this._dataService.updateBook(book)
-    .subscribe(
+      .subscribe(
       books => {
         this.books = books;
         this._snackBar.open(`"${book.title}" has been updated!`, 'DISMISS', {
@@ -64,17 +95,4 @@ onRatingUpdate(book: IBook): void {
       }, error => this.updateMessage(<any>error, 'ERROR'));
   }
 
-    openDialog(bookId: number): void {
-      let config = { width: '650px', height: '400px', position: { top: '50px'}
-};
-      let dialogRef = this._dialog.open(BookDetailComponent, config);
-      dialogRef.componentInstance.bookId = bookId;
-      dialogRef.afterClosed().subscribe(res => {
-        this.getBooks();
-      });
-    }
-
-    openRoute(bookId: number): void {
-      this._router.navigate(['/collection', bookId]);
-    }
 }

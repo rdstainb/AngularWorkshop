@@ -25,7 +25,7 @@ RatingCategoryPipe,
 RatingComponent,
 TabsComponent,
 BookDetailComponent,
-    NewBookComponent
+NewBookComponent
 ],
 imports: [
 BrowserModule,
@@ -37,7 +37,7 @@ RouterModule,
 routing
 ],
 providers: [BookGuardService],
-entryComponents:[BookDetailComponent],
+entryComponents:[NewBookComponent],
 bootstrap: [AppComponent]
 })
 export class AppModule { }
